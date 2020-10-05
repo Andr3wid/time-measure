@@ -1,0 +1,29 @@
+/*
+    Stylesheet is written in a mobile-first approach!
+*/
+
+body {
+  background-color: #fff;
+  background-image: radial-gradient(circle, #ccc 15%, transparent 10%),
+    radial-gradient(circle, #ccc 15%, transparent 10%);
+  background-size: 100px 100px;
+  background-position: 0 0, 50px 50px;
+}
+
+.wrapper {
+  width: 95%;
+  padding: 20px;
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 35px;
+  background-color: rgba(222, 222, 222, 0.8);
+  border-radius: 12px;
+}
+
+input {
+  margin-bottom: 15px;
+}
+
+#main-box {
+  margin-top: 35px;
+}
