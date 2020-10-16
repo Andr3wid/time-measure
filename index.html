@@ -25,7 +25,7 @@
             <label for="prize">Prize per hour: </label><br>
             <input type="number" name="prize" id="prize" class="form-control">
 
-            <input type="button" value="Start" class="btn btn-success">
+            <input type="button" value="Start" id="toggle-btn" class="btn btn-success">
 
             <div id="running-label">
                 displays the running-time in seconds
@@ -44,6 +44,33 @@
             </div>
         </div>
     </div>
+    <script>
+        // map containers to js variables
+        let start_btn = document.querySelector("#toggle-btn");
+        let c_start = document.querySelector("#start-label");
+        let c_end = document.querySelector("#end-label");
+        let c_run = document.querySelector("#running-label");
+        let c_result = document.querySelector("#result-label");
+
+        // indicates if time is currently running or not
+        let running = false;
+
+        // transformations once the toggle-button is clicked
+        start_btn.addEventListener("click", (el, ev) => {
+            running = !running;
+
+            if (running) {
+                start_btn.classList.remove("btn-success");
+                start_btn.classList.add("btn-warning");
+                start_btn.setAttribute("value", "Stop");
+            } else {
+                start_btn.classList.remove("btn-warning");
+                start_btn.classList.add("btn-success");
+                start_btn.setAttribute("value", "Start");
+            }
+
+        });
+    </script>
 </body>
 
 </html>
