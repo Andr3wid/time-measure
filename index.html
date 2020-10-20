@@ -28,48 +28,101 @@
             <input type="button" value="Start" id="toggle-btn" class="btn btn-success">
 
             <div id="running-label">
-                displays the running-time in seconds
+                --:--:--
             </div>
 
             <div id="start-label">
-                displays the start time in format hh:MM
+                --:--:--
             </div>
 
             <div id="end-label">
-                displays the end time in format hh:MM
+                --:--:--
             </div>
 
             <div id="result-label">
-                displays the result in €
+                -- €
             </div>
         </div>
     </div>
     <script>
+
         // map containers to js variables
         let start_btn = document.querySelector("#toggle-btn");
         let c_start = document.querySelector("#start-label");
         let c_end = document.querySelector("#end-label");
         let c_run = document.querySelector("#running-label");
         let c_result = document.querySelector("#result-label");
+        let prize = document.querySelector("#prize");
 
         // indicates if time is currently running or not
         let running = false;
+
+        let seconds_elapsed = 0;
+
+        let runner = null;
+
+        function reset() {
+            c_start = "--:--:--";
+            c_end = "--:--:--";
+            c_run = "--:--:--";
+            seconds_elapsed = 0;
+            c_result = "-- €";
+        }
+
+        function incrementCounter() {
+            seconds_elapsed++;
+
+            let hours = Math.floor(seconds_elapsed / 3600);
+            let minutes = Math.floor(seconds_elapsed / 60 - hours * 3600);
+            let seconds = Math.floor(seconds_elapsed - minutes * 60 - hours * 3600);
+
+            let str_hours = hours > 9 ? hours : "0" + hours;
+            let str_minutes = minutes > 9 ? minutes : "0" + minutes;
+            let str_seconds = seconds > 9 ? seconds : "0" + seconds;
+
+            c_run.innerText = str_hours + ":" + str_minutes + ":" + str_seconds;
+        }
+
+        function calculateResult() {
+            let prize_per_hour = Number(prize.value);
+            let prize_per_second = prize_per_hour / 3600;
+
+            let overall_result = Math.ceil(prize_per_second * seconds_elapsed);
+            c_result.innerText = overall_result + " €";
+
+        }
+
 
         // transformations once the toggle-button is clicked
         start_btn.addEventListener("click", (el, ev) => {
             running = !running;
 
             if (running) {
+                incrementCounter();
+                runner = setInterval(incrementCounter, 1000);
+
                 start_btn.classList.remove("btn-success");
                 start_btn.classList.add("btn-warning");
                 start_btn.setAttribute("value", "Stop");
+
+                c_start.innerHTML = new Date();
+                prize.setAttribute("disabled", "true");
+
             } else {
                 start_btn.classList.remove("btn-warning");
                 start_btn.classList.add("btn-success");
                 start_btn.setAttribute("value", "Start");
+
+                c_end.innerHTML = new Date();
+                clearInterval(runner);
+                prize.removeAttribute("disabled");
+                calculateResult();
+                seconds_elapsed = 0;
             }
 
         });
+
+
     </script>
 </body>
 
